@@ -1,0 +1,221 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="GPS Tracking">
+    <meta name="author" content="Gulfsat Madagascar">
+
+    <title>Tracking des modules GPS</title>
+    <link href="{% static 'css/app.css' %}" rel="stylesheet">
+    <link href="{% static 'css/leaflet.css' %}" rel="stylesheet">
+    <link href="{% static 'font-awesome-4.1.0/css/font-awesome.css' %}"
+	  rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap-datetimepicker.css' %}" rel="stylesheet">
+    <!-- Support HTML5 Shim et Respond.js sur IE8 -->
+    <!-- ATTENTION: Respond.js ne marchera pas
+         si vous visionnez la page via file:// -->
+    <!--[if lt IE 9]>
+        <script
+          src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js">
+        </script>
+        <script
+          src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js">
+        </script>
+	<![endif]-->
+
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+	<div class="navbar-header">
+	  <button type="button" class="navbar-toggle"
+		  data-toggle="collapse"
+		  data-target="#bs-example-navbar-collapse-1">
+	    <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+	  </button>
+          <a class="navbar-brand" href="{% url 'django_gpstracker:map' %}">GPS Tracker</a>
+	</div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+           <ul class="nav navbar-nav navbar-right">
+	    <li class="dropdown">
+	      <a href="#" role="button"
+		 class="dropdown-toggle" data-toggle="dropdown">
+		<i class="fa fa-user"></i>&nbsp;&nbsp;{{ user.username }}
+		<b class="caret"></b>
+	      </a>
+	      <ul class="dropdown-menu">
+		<li>
+                  {% if user.username %}
+		    <a href="{% url 'logout' %}">
+		      <i class="fa fa-fw fa-power-off"></i>
+		      D&eacute;connection
+		    </a>
+                  {% else %}
+		    <a href="{% url 'login' %}">
+		      <i class="fa fa-fw fa-power-on"></i>
+		      Connection
+		    </a>
+                  {% endif %}
+		</li>
+	      </ul>
+	    </li>
+	  </ul>
+	  {% block menu %}{% endblock %}
+	</div>
+      </div>
+    </nav>
+
+    <div id="container">
+      {% if user.username %}
+        <div id="sidebar">
+	  <div class="sidebar-wrapper">
+	    <div class="panel panel-default" id="features">
+	      <div class="panel-heading">
+	        <h3 class="panel-title">Modules
+		  <button type="button" class="btn btn-xs btn-default pull-right"
+			  id="sidebar-hide-btn">
+		    <i class="fa fa-chevron-left"></i>
+		  </button>
+	        </h3>
+	      </div>
+	      <div class="panel-body">
+	        <div class="row">
+		  <div class="col-xs-8 col-md-8">
+		    <input type="text" class="form-control search"
+			   placeholder="Recherche" />
+		  </div>
+		  <div class="col-xs-4 col-md-4">
+		    <button type="button" class="btn btn-primary pull-right sort"
+			    data-sort="feature-name" id="sort-btn">
+		      <i class="fa fa-sort"></i>&nbsp;&nbsp;Trier
+		    </button>
+		  </div>
+	        </div>
+	        <div class="sidebar-table">
+		  <table class="table table-hover" id="feature-list">
+		    <tbody class="list"></tbody>
+		  </table>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+        </div>
+      {% endif %}
+      <div id="map"></div>
+    </div>
+
+    <!-- on va mettre les modals contextuels ici -->
+    <!-- .modal qui sert de formulaire de login -->
+    {% if not user.username %}
+    <div class="modal fade" role="dialog" aria-labelledby="loginLabel"
+	 tabindex="-1" id="login">
+      <div class="modal-dialog" role="document">
+	<div class="modal-content">
+	  <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal"
+		    aria-label="Close">
+	      <span aria-hidden="true">&times;</span>
+	    </button>
+	    <h4 class="modal-title" id="loginLabel">Veuillez vous identifier</h4>
+	  </div>
+	  <div class="modal-body">
+	    <div class="container-fluid">
+	      <form class="form-signin" role="form" method="POST"
+		    action="/login/?next={{ next }}">{% csrf_token %}
+		<input type="hidden" name="next" value="{{ next }}">
+		<input type="text" name="username" class="form-control"
+		       placeholder="Utilisateur">
+		<br/>
+		<input type="password" name="password"
+		       class="form-control" placeholder="Mot de passe">
+		<br/>
+		<input type="hidden" name="next" value="{{ next }}">
+		<button class="btn btn-large btn-primary"
+			type="submit">Go!</button>
+	      </form>
+	    </div>
+	  </div>
+	  <div class="modal-footer"></div>
+	</div>
+      </div>
+    </div>
+    {% else %}
+    <!-- .modal qui sert de panneau de contrôle pour un module GPS -->
+    <div class="modal fade" id="featureModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" type="button"
+                    data-dismiss="modal" aria-hidden="true">&times;
+            </button>
+            <h4 class="modal-title text-primary" id="feature-title"></h4>
+          </div>
+          <div class="modal-body" id="feature-info">
+            <div class="row">
+              <form role="form" id="history" method="POST">{% csrf_token %}
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label>Départ</label>
+                    <input type="text" class="form-control"
+                           name="start" id="id_start">
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label>Arrivée</label>
+	            <input type="text" class="form-control"
+                           name="stop" id="id_stop">
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label>Position</label>
+                    <button class="btn btn-primary form-control"
+			    type="submit">Tracer</button>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+		    <input id="id_imei" type="hidden" name="imei">
+                  </div>
+                </div>
+            </form>
+          </div>
+            <div class="modal-footer"></div>
+	  </div>
+	</div>
+      </div>
+      {% endif %}
+      
+    
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/list.min.js' %}"></script>
+    <script src="{% static 'js/leaflet.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/moment.js' %}"></script>
+    <script src="{% static 'js/bootstrap-datetimepicker.js' %}"></script>
+    <script src="{% static 'js/map.js' %}"></script>
+    {% if not user.username %}
+      <!-- show login -->
+      <script type="text/javascript">$('#login').modal('show');</script>
+    {% else %}
+      <script src="{% static 'js/leaflet-realtime.js' %}"></script>
+      <script src="{% static 'js/getpositions.js' %}"></script>
+      {% if tracks %}
+        <script type="text/javascript">
+          var tracks=$.parseJSON('{{ tracks|safe }}');
+          drawTracks(tracks);
+        </script>
+      {% endif %}
+    {% endif %}	
+  </body>
+</html>
