@@ -52,11 +52,8 @@
     </div>
     
     <script src="{% static 'js/jquery.js' %}"></script>
-    <script src="{% static 'js/list.min.js' %}"></script>
     <script src="{% static 'js/leaflet.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/moment.js' %}"></script>
-    <script src="{% static 'js/bootstrap-datetimepicker.js' %}"></script>
     <script type="text/javascript">
     var osmLayer = L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
         MaxZoom: 23,
@@ -64,8 +61,8 @@
         attribution: "Gulfsat Madagascar"
     });
     var latlng = L.latLng({{ latitude }}, {{ longitude }});
-    var map = L.map('map', {
-        center: latlng,
+    var map = L.map("map", {
+        center: [{{ latitude }}, {{ longitude }}],
         zoom: 15,
         layers: [osmLayer]
     });
@@ -73,7 +70,7 @@
         radius: 4,
 	fillColor: "#0099ff",
 	weight: 2,
-	fillOpacity: 2});
+	fillOpacity: 2}).addTo(map);
     </script>
   </body>
 </html>
