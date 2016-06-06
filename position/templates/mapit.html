@@ -63,13 +63,17 @@
         subdomains:["a", "b", "c"],
         attribution: "Gulfsat Madagascar"
     });
-
+    var latlng = L.latLng({{ latitude }}, {{ longitude }});
     var map = L.map('map', {
-        center: [-18.886216, 47.489114],
+        center: latlng,
         zoom: 15,
         layers: [osmLayer]
     });
-    L.marker([{{ latitude }}, {{ longitude }}]).addTo(map)
+    L.circleMarker(latlng, {
+        radius: 4,
+	fillColor: "#0099ff",
+	weight: 2,
+	fillOpacity: 2});
     </script>
   </body>
 </html>
