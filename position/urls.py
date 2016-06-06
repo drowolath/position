@@ -3,7 +3,7 @@ from django.conf.urls import url
 
 urlpatterns = [
     url(
-        r'(?P<longitude>[\d.@+-]+)/(?P<latitude>[\d.@+-]+)',
+        r'(?P<latitude>[\d.@+-]+)/(?P<longitude>[\d.@+-]+)',
         views.mapit,
         name='mapit'),
     url(
