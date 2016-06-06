@@ -1,0 +1,4 @@
+*.py[cod]
+*~
+dist/
+position.egg-info/
