@@ -60,16 +60,11 @@ L.control.layers({"Carte": osmLayer}, {"Positions live": liveLayer}).addTo(map);
 var deviceList = new List("devices", {valueNames: ["device-id", "device-name"]});
 deviceList.sort("device-id", {order: "asc"});
 deviceList.on("searchComplete", function(e) {
-    var list = new Array();
-    $.each(e.visibleItems, function(index, item) {
-	var data = item.values();
-	list.push(data);
-    });
     liveLayer.clearLayers();
-    $.each(list, function(index, device) {
+    $.each(e.visibleItems, function(index, item) {
+	var device = item.values();
 	var position = getRealTimePosition(device);
 	position.addTo(liveLayer);
-    });
-    
+    });    
 });
 deviceList.search();
