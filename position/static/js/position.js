@@ -1,4 +1,4 @@
-function getRealTimePosition(device) {
+function getRealTimePosition(device, layer) {
     /* Renvoie toutes les 5 secondes la position du device.
        Ici 'device' est une représentation d'un module GPS telle
        que définie par l'instance listjs (la sidebar)*/
@@ -36,7 +36,7 @@ function getRealTimePosition(device) {
 		layer.bindPopup(text);
 	    }
 	});
-        return realtime;
+        realtime.addTo(layer);
     }
 }
 
@@ -63,8 +63,7 @@ deviceList.on("searchComplete", function(e) {
     liveLayer.clearLayers();
     $.each(e.visibleItems, function(index, item) {
 	var device = item.values();
-	var position = getRealTimePosition(device);
-	position.addTo(liveLayer);
+	getRealTimePosition(device, livelayer);
     });    
 });
 deviceList.search();
