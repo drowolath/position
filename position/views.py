@@ -40,6 +40,8 @@ def index(request, template_name="index.html"):
             context['tracks'] = result.serialize()
         else:
             context['errors'] = form.errors
+    else:
+        context['devices'] = Device.objects.all()
     return render(request, 'index.html', context)
 
 @login_required
