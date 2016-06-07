@@ -40,6 +40,7 @@ function getRealTimePosition(device, layer) {
     }
 }
 
+
 /* Initialisation du fond de carte et de tous les attributs liés */
 var liveLayer = new L.layerGroup();
 var osmLayer = L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -53,6 +54,39 @@ var map = L.map('map', {
     zoom: 13,
     layers: [osmLayer, liveLayer]
 });
+
+// handler sur le list-btn
+$("#list-btn").click(function() {
+    $('#sidebar').toggle();
+    map.invalidateSize();
+    return false;
+});
+
+// handler sur le sidebar-hide-btn
+$("#sidebar-hide-btn").click(function() {
+    $('#sidebar').hide();
+    map.invalidateSize();
+});
+
+// affichage du formulaire de tracé d'historique
+$(document).on("click", ".device-row", function() {
+    var imei = $(this).attr("id");
+    var name = $(this).find('.device-name').html();
+    var currentdate = new Date();
+    var datetime = currentdate.getDate() + "/" +
+        (currentdate.getMonth()+1)  + "/" +
+        currentdate.getFullYear() + " " +
+        currentdate.getHours() + ":" +
+        currentdate.getMinutes();
+    $('#id_start, #id_stop').datetimepicker(
+	{format : 'DD/MM/YYYY HH:mm:ss', language : 'fr'});
+    $('#id_start, #id_stop').data("DateTimePicker").setMaxDate(datetime);
+    $("#feature-title").html("Historiqe des traces de "+name);
+    $("#history").attr("action", ".");
+    $("#id_imei").val(imei);
+    $("#featureModal").modal("show");
+});
+
 
 L.control.layers({"Carte": osmLayer}, {"Positions live": liveLayer}).addTo(map);
 
