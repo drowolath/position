@@ -2,9 +2,9 @@ function getRealTimePosition(device, layer) {
     /* Renvoie toutes les 5 secondes la position du device.
        Ici 'device' est une représentation d'un module GPS telle
        que définie par l'instance listjs (la sidebar)*/
-    if (device['feature-id'] != null ) {
+    if (device['device-id'] != null ) {
         var realtime = L.realtime({
-	    url: device['feature-id'],
+	    url: device['device-id'],
     	    crossOrigin: true,
     	    type: 'json'
         }, {
