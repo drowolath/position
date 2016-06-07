@@ -63,7 +63,7 @@ deviceList.on("searchComplete", function(e) {
     liveLayer.clearLayers();
     $.each(e.visibleItems, function(index, item) {
 	var device = item.values();
-	getRealTimePosition(device, livelayer);
+	getRealTimePosition(device, liveLayer);
     });    
 });
 deviceList.search();
