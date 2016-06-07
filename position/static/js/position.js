@@ -50,16 +50,16 @@ var osmLayer = L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
 
 var map = L.map('map', {
     center: [-18.886216, 47.489114],
-    zoom: 15,
+    zoom: 13,
     layers: [osmLayer, liveLayer]
 });
 
 L.control.layers({"Carte": osmLayer}, {"Positions live": liveLayer}).addTo(map);
 
 /* Initialisation de la liste de device avec listjs */
-var featureList = new List("features", {valueNames: ["feature-id", "feature-name"]});
-featureList.sort("feature-id", {order: "asc"});
-featureList.on("searchComplete", function(e) {
+var deviceList = new List("devices", {valueNames: ["device-id", "device-name"]});
+deviceList.sort("device-id", {order: "asc"});
+deviceList.on("searchComplete", function(e) {
     var list = new Array();
     $.each(e.visibleItems, function(index, item) {
 	var data = item.values();
@@ -72,4 +72,4 @@ featureList.on("searchComplete", function(e) {
     });
     
 });
-featureList.search();
+deviceList.search();

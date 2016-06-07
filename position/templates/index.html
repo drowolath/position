@@ -3,7 +3,7 @@
 {% block container %}
 <div id="sidebar">
   <div class="sidebar-wrapper">
-    <div class="panel panel-default" id="features">
+    <div class="panel panel-default" id="devices">
       <div class="panel-heading">
         <h3 class="panel-title">Modules
 	  <button type="button" class="btn btn-xs btn-default pull-right"
@@ -20,20 +20,20 @@
 	  </div>
 	  <div class="col-xs-4 col-md-4">
 	    <button type="button" class="btn btn-primary pull-right sort"
-		    data-sort="feature-name" id="sort-btn">
+		    data-sort="device-name" id="sort-btn">
 	      <i class="fa fa-sort"></i>&nbsp;&nbsp;Trier
 	    </button>
 	  </div>
 	</div>
 	<div class="sidebar-table">
-	  <table class="table table-hover" id="feature-list">
+	  <table class="table table-hover" id="device-list">
 	    <tbody class="list">
 	      {% for device in devices %}
-	        <tr class="feature-row" id="{{ device.imei }}">
+	        <tr class="device-row" id="{{ device.imei }}">
 		  <td class="feaure-id" style="display: none;">
 		    {{ device.imei }}
 		  </td>
-		  <td class="feature-name">
+		  <td class="device-name">
 		    {{ device.name }}
 		  </td>
 		  <td style="vertical-align: middle; color: #{{ device.color }}">
