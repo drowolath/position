@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+1;2802;0c
 {% block container %}
 <div id="sidebar">
   <div class="sidebar-wrapper">
@@ -30,12 +30,8 @@
 	    <tbody class="list">
 	      {% for device in devices %}
 	        <tr class="device-row" id="{{ device.imei }}">
-		  <td class="device-id" style="display: none;">
-		    {{ device.imei }}
-		  </td>
-		  <td class="device-name">
-		    {{ device.name }}
-		  </td>
+		  <td class="device-id" style="display: none;">{{ device.imei }}</td>
+		  <td class="device-name">{{ device.name }}</td>
 		  <td style="vertical-align: middle; color: #{{ device.color }}">
 		    <i class="fa fa-chevron-right"></i>
 		  </td>
