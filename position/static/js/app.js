@@ -1,3 +1,6 @@
+fi
+
+
 /* Initialisation du fond de carte et de tous les attributs liés */
 var liveLayer = new L.layerGroup();
 var osmLayer = L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
@@ -11,4 +14,3 @@ var map = L.map('map', {
     zoom: 15,
     layers: [osmLayer, liveLayer]
 });
-
