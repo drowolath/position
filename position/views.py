@@ -48,7 +48,7 @@ def index(request, template_name="index.html"):
     return render(request, 'index.html', context)
 
 @login_required
-def getposition(request, **kwargs):
+def trackers(request, **kwargs):
     """vue d'accès aux informations sur les trackers"""
     if request.method == 'POST':
         return HttpResponse(status=405)
