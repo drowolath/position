@@ -22,7 +22,10 @@ def index(request, template_name="index.html"):
     qu'une carte sur laquelle elle affiche les positions
     live de ces trackers; sur demande elle propose un formulaire
     qui renvoie vers un tracé d'historique de trace"""
-    context = {}
+    context = {
+        'page_title': 'GPSTracking',
+        'brand_name': 'Posit.ion'
+        }
     if request.method == 'POST':
         # on va rechercher l'historique d'un tracker
         form = HistoryForm(request.POST)
