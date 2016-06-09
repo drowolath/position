@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block container %}
+<div id="sidebar">
+  <div class="sidebar-wrapper">
+    <div class="panel panel-default" id="positions">
+      <div class="panel-heading">
+        <h3 class="panel-title"><b>{{ device.name }}</b></h3>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+	  <div class="col-xs-8 col-md-8">
+	    <input type="text" class="form-control search"
+	      placeholder="Filtrer" />
+	  </div>
+	  <div class="col-xs-4 col-md-4">
+	    <button type="button" class="btn btn-primary pull-right sort"
+		    data-sort="device-name" id="sort-btn" onclick="path.snakeIn()">
+	      <i class="fa fa-play fa-1"></i>
+	    </button>
+	  </div>
+	</div>
+	<div class="sidebar-table">
+	  <table class="table table-hover" id="device-informations">
+	    <tbody class="list">
+	      {% for key, value in data.items %}
+	          {% if key == "features" %}
+	              {% for object in value %}
+                          <tr class="device-row">
+		            <td class="position-datetime">{{ object.properties.date}} {{ object.properties.hour }}</td>
+		            <td class="position-lat" style="display: none;">{{ object.geometry.coordinates.1 }}</td>
+			    <td class="position-lon" style="display: none;">{{ object.geometry.coordinates.0 }}</td>
+			    <td class="position-speed">{{ object.properties.speed }}km/h</td>
+			  </tr>
+	              {% endfor %}
+	          {% endif %}
+	      {% endfor %}
+	    </tbody>
+	  </table>
+	</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="map"></div>
+{% endblock %}
+
+      
+{% block javascript %}
+<script src="/static/js/list.min.js"></script>
+<script src="/static/js/leaflet.js"></script>
+<script src="/static/js/L.Polyline.SnakeAnim.js"></script>
+<script src="/static/js/historytracking.js"></script>
+<script type="text/javascript">
+  var tracks = $.parseJSON('{{ tracks|safe }}');
+  var path = drawTracks(tracks);
+</script>
+{% endblock %}

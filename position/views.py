@@ -6,7 +6,7 @@ import requests
 import time
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from models import Device, HistoryForm
 
@@ -24,7 +24,8 @@ def index(request, template_name="index.html"):
     qui renvoie vers un tracé d'historique de trace"""
     context = {
         'page_title': 'GPSTracking',
-        'brand_name': 'Posit.ion'
+        'brand_name': 'Posit.ion',
+        'devices': Device.objects.all()
         }
     if request.method == 'POST':
         # on va rechercher l'historique d'un tracker
@@ -39,12 +40,15 @@ def index(request, template_name="index.html"):
             else:
                 stop = stop.strftime('%d%m%Y%H%M%S')
             request.method = 'GET'
-            result = getposition(request, imei=imei, start=start, stop=stop)
-            context['tracks'] = result.serialize()
-        else:
-            context['errors'] = form.errors
-    else:
-        context['devices'] = Device.objects.all()
+            result = trackers(request, imei=imei, start=start, stop=stop)
+            if result.status_code == 200:
+                tracks = result.content
+                context['device'] = Device.objects.get(imei=imei)
+                context['data'] = json.loads(tracks)
+                context['tracks'] = tracks
+                return render(request, 'history.html', context)
+            else:
+                return result
     return render(request, 'index.html', context)
 
 @login_required
@@ -54,10 +58,7 @@ def trackers(request, **kwargs):
         return HttpResponse(status=405)
     elif not kwargs:
         devices = Device.objects.all()
-        return HttpResponse(
-            json.dumps(list(devices.values())),
-            content_type='application/json; charset=utf-8'
-            )
+        return JsonResponse(list(devices.values()), safe=False)
     else:
         session = requests.Session()
         device = get_object_or_404(Device, imei=kwargs['imei'])
@@ -88,10 +89,7 @@ def trackers(request, **kwargs):
                 result = api_response.json()
                 if result['type'] == 'Feature':
                     result['properties']['color'] = device.color
-                return HttpResponse(
-                    json.dumps(result),
-                    content_type='application/json; charset=utf-8'
-                    )
+                return JsonResponse(result, safe=False)
             elif api_response.status_code == 401:
                 # il faut s'authentifier d'abord
                 auth_result = requests.post(

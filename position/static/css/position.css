@@ -28,7 +28,7 @@ body {
     -webkit-box-shadow: none;
     box-shadow: none;
 }
-.feature-row {
+.device-row {
     cursor: pointer;
 }
 #sidebar-hide-btn {

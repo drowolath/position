@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-1;2802;0c
 {% block container %}
 <div id="sidebar">
   <div class="sidebar-wrapper">
@@ -30,8 +29,8 @@
 	    <tbody class="list">
 	      {% for device in devices %}
 	        <tr class="device-row" id="{{ device.imei }}">
-		  <td class="device-id" style="display: none;">{{ device.imei }}</td>
 		  <td class="device-name">{{ device.name }}</td>
+		  <td class="device-id" style="display: none;">{{ device.imei }}</td>
 		  <td style="vertical-align: middle; color: #{{ device.color }}">
 		    <i class="fa fa-chevron-right"></i>
 		  </td>
@@ -45,8 +44,6 @@
   </div>
 </div>
 <div id="map"></div>
-{% endblock %}
-
 <!-- formulaire de recherche de traces dans le temps -->
 <div class="modal fade" id="featureModal" tabindex="-1" role="dialog">
   <div class="modal-dialog">
@@ -90,6 +87,8 @@
     </div>
   </div>
 </div>
+{% endblock %}
+
       
 {% block javascript %}
 <script src="/static/js/list.min.js"></script>
@@ -97,5 +96,13 @@
 <script src="/static/js/leaflet-realtime.js"></script>
 <script src="/static/js/moment.js"></script>
 <script src="/static/js/bootstrap-datetimepicker.js"></script>
+<script src="/static/js/map.js"></script>
 <script src="/static/js/position.js"></script>
+<script src="/static/js/livetracking.js"></script>
+{% if tracks %}
+<script type="text/javascript">
+  var tracks = $.parseJSON('{{ tracks|safe }}');
+  drawTracks(tracks);
+</script>
+{% endif %}
 {% endblock %}
