@@ -6,11 +6,9 @@ function drawTracks(tracks) {
     }
     var path = L.polyline(latlngs);
     map.fitBounds(L.latLngBounds(latlngs));
-    map.addLayer(L.marker(latlngs[0]));
-    map.addLayer(L.marker(latlngs[len - 1]));
+    map.addLayer(L.marker(latlngs[0]).bindPopup('start'));
+    map.addLayer(L.marker(latlngs[len-1]).bindPopup('stop'));
     map.addLayer(path);
-
-    /* on peut aussi créer un handler sur chaque position */
     
     return path;
 }
