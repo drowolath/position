@@ -23,8 +23,8 @@ def index(request, template_name="index.html"):
     live de ces trackers; sur demande elle propose un formulaire
     qui renvoie vers un tracé d'historique de trace"""
     context = {
-        'page_title': 'GPSTracking',
-        'brand_name': 'Posit.ion',
+        'page_title': 'Track it',
+        'brand_name': 'GPS Tracking',
         'devices': Device.objects.all()
         }
     if request.method == 'POST':
