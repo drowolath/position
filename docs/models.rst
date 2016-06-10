@@ -17,6 +17,6 @@ Il est censé représenter un module de tracking GPS.
        description = models.TextField(max_length=100)
 
 
-On indexe le modèle suivant `l'IMEI https://fr.wikipedia.org/wiki/International_Mobile_Equipment_Identity`_.
+On indexe le modèle suivant `l'IMEI <https://fr.wikipedia.org/wiki/International_Mobile_Equipment_Identity>`_.
 Grâce à ce modèle on peut ajouter de nouveaux modules, filtrer suivant le nom, l'IMEI, etc.
        
