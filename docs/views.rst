@@ -29,7 +29,7 @@ Dans la même colonne de gauche, un formulaire permet de filtrer les modules par
 La carte est mise à jour en conséquence pour rester cohérent avec la liste de modules filtrée.
 
 En cliquant sur le nom d'un module dans la colonne de gauche, on accède à un formulaire qui propose de faire une recherche temporelle dans l'historique
-de traces du module. Le résultat de cette requête est affiché sur la vue :ref:`_position_views_history`.
+de traces du module. Le résultat de cette requête est affiché sur la vue :ref:`position_views_history`.
 
 .. _position_views_history:
 
@@ -37,7 +37,7 @@ Historique de parcours: /
 -------------------------
 
 Cette vue attend en entrée un identifiant de module, une date et heure de début, une date et heure de fin.
-Ces informations lui sont passées par l'intermédaire d'un formulaire disponible sur la vue :ref:`_position_views_live`.
+Ces informations lui sont passées par l'intermédaire d'un formulaire disponible sur la vue :ref:`position_views_live`.
 
 Avec ces informations, cette vue appelle l'API REST située à http://flicage.malagasy.com/api/gpstracker/ et en récupère un document
 GeoJSON lui donnant toutes les informations sur les différentes positions enregistrées dans l'intervalle de temps spécifié.
