@@ -80,7 +80,7 @@ def trackers(request, **kwargs):
                 'stop': stop
                 }
             )
-        token = settings.TOKENS.get(request.user.username)
+        token = settings.TOKENS.get('django') #en attendant de gérer mieux
         while True:
             req.auth = (token,'')
             api_response = session.send(req.prepare())
@@ -93,8 +93,7 @@ def trackers(request, **kwargs):
             elif api_response.status_code == 401:
                 # il faut s'authentifier d'abord
                 auth_result = requests.post(
-                    auth=(request.user.username,
-                          settings.GPSTRACKER_API[request.user.username]),
+                    auth=('django', settings.GPSTRACKER_API['django']),
                     url=os.path.join(settings.GPSTRACKER_API_URL,
                                      'auth',
                                      'request-token'),
@@ -102,8 +101,8 @@ def trackers(request, **kwargs):
                     )
                 if auth_result.status_code == 200:
                     token = auth_result.json()['token']
-                    settings.TOKENS.set(request.user.username, token)
-                    settings.TOKENS.expire(request.user.username, 3600)
+                    settings.TOKENS.set('django', token)
+                    settings.TOKENS.expire('django', 3600)
                     # authentification OK
                 else:
                     return HttpResponse(status=auth_result.status_code)
