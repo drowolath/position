@@ -7,6 +7,10 @@ urlpatterns = [
         views.mapit,
         name='mapit'),
     url(
+        r'(?P<name>[\alphanum]+)',
+        views.trackers,
+        name='named_liveposition'),
+    url(
         r'(?P<imei>\d{15})',
         views.trackers,
         name='liveposition'),
