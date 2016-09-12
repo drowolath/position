@@ -1,7 +1,7 @@
 .. _position:
 
-Position: Application Django pour gpstracker
-============================================
+position
+========
 
 Application Django permettant de visualiser les données proposées par l'API REST du module gpstracker.
 Ça aurait pu s'appeler django-gpstracker, mais on avait envie d'un nouveau nom.
