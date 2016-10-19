@@ -28,6 +28,9 @@ body {
     -webkit-box-shadow: none;
     box-shadow: none;
 }
+.mydownload {
+    cursor: pointer;
+}
 .device-row {
     cursor: pointer;
 }
