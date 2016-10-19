@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+import collections
+import itertools
 import json
 import os
 import requests
@@ -98,6 +100,16 @@ def index(request, template_name="index.html"):
                 else:
                     stop = stop.strftime('%d%m%Y%H%M%S')
                 devices = {i.imei: i.name for i in context['devices']}
+                names = sorted(devices.values(), key=lambda x: x.split()[1])
+                names = itertools.groupby(names, lambda x: x.split()[1])
+                s_devices = collections.OrderedDict()
+                for _, gnames in names:
+                    gnames = sorted(gnames)
+                    for gname in gnames:
+                        for key, value in devices.items():
+                            if value == gname:
+                                s_devices[key] = value
+                devices = s_devices
                 p = canvas.Canvas(response)
                 title = "Distances parcourues du {0} au {1}".format(
                     start[:8], stop[:8])
