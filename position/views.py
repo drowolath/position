@@ -99,7 +99,10 @@ def index(request, template_name="index.html"):
                     stop = stop.strftime('%d%m%Y%H%M%S')
                 devices = {i.imei: i.name for i in context['devices']}
                 p = canvas.Canvas(response)
-                y = 380
+                title = "Distances parcourues du {0} au {1}".format(
+                    start[:8], stop[:8])
+                p.drawString(200, 800, title)
+                y = 760
                 request.method = 'GET'
                 for device in devices:
                     result = trackers(
@@ -120,7 +123,7 @@ def index(request, template_name="index.html"):
                                              result.status_code)
                     p.drawString(100, y, '{0}: {1}'.format(
                         devices[device], totaldistance))
-                    y += 20
+                    y -= 20
                 p.showPage()
                 p.save()
                 return response
