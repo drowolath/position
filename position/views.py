@@ -99,6 +99,7 @@ def index(request, template_name="index.html"):
                     stop = stop.strftime('%d%m%Y%H%M%S')
                 devices = {i.imei: i.name for i in context['devices']}
                 p = canvas.Canvas(response)
+                y = 10
                 for device in devices:
                     result = trackers(
                         request,
@@ -113,8 +114,9 @@ def index(request, template_name="index.html"):
                     else:
                         totaldistance = "HTTP {} error occured.".format(
                             result.status_code)
-                    p.drawString(100, 100, '{0}: {1}'.format(
+                    p.drawString(100, y, '{0}: {1}'.format(
                         devices[device], totaldistance))
+                    y += 5
                 p.showPage()
                 p.save()
                 return response
