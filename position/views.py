@@ -33,6 +33,7 @@ def index(request, template_name="index.html"):
         # on va rechercher l'historique d'un tracker
         form = HistoryForm(request.POST)
         if form.is_valid():
+            print bonobo
             imei = form.cleaned_data['imei']
             start = form.cleaned_data['start']
             stop = form.cleaned_data['stop']
@@ -61,7 +62,7 @@ def index(request, template_name="index.html"):
                     stop = time.time().strftime('%d%m%Y%H%M%S')
                 else:
                     stop = stop.strftime('%d%m%Y%H%M%S')
-                print bobo
+                print bonobo
                 return render(request, 'index.html', context)
     return render(request, 'index.html', context)
 
