@@ -99,7 +99,7 @@ def index(request, template_name="index.html"):
                     stop = stop.strftime('%d%m%Y%H%M%S')
                 devices = {i.imei: i.name for i in context['devices']}
                 p = canvas.Canvas(response)
-                y = 0
+                y = 380
                 request.method = 'GET'
                 for device in devices:
                     result = trackers(
@@ -111,11 +111,14 @@ def index(request, template_name="index.html"):
                     if result.status_code == 200:
                         tracks = result.content
                         data = json.loads(tracks)
-                        totaldistance = data['totaldistance']
+                        totaldistance = data['totaldistance'][0]
+                    elif result.status_code == 204:
+                        totaldistance = 0
                     else:
-                        totaldistance = "HTTP {} error occured.".format(
-                            result.status_code)
-                    p.drawString(0, y, '{0}: {1}'.format(
+                        totaldistance = ("Impossible de calculer "
+                                         "la distance (HTTP {})").format(
+                                             result.status_code)
+                    p.drawString(100, y, '{0}: {1}'.format(
                         devices[device], totaldistance))
                     y += 20
                 p.showPage()
