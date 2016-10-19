@@ -66,7 +66,7 @@ $(document).on("click", ".mydownload", function() {
     $('#id_start, #id_stop').datetimepicker(
     	{format : 'DD/MM/YYYY HH:mm:ss', language : 'fr'});
     $('#id_start, #id_stop').data("DateTimePicker").setMaxDate(datetime);
-    $("#feature-title").html("Historiqe des traces de "+name);
+    $("#feature-title").html("Télécharger un résumé du parcours des véhicules");
     $("#summary").attr("action", ".");
     $('#downloadModal').modal('show');
 });
