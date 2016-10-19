@@ -56,6 +56,21 @@ $(document).on("click", ".device-row", function() {
     $('#featureModal').modal('show');
 });
 
+$(document).on("click", ".mydownload", function() {
+    var currentdate = new Date();
+    var datetime = currentdate.getDate() + "/" +
+        (currentdate.getMonth()+1)  + "/" +
+        currentdate.getFullYear() + " " +
+        currentdate.getHours() + ":" +
+        currentdate.getMinutes();
+    $('#id_start, #id_stop').datetimepicker(
+    	{format : 'DD/MM/YYYY HH:mm:ss', language : 'fr'});
+    $('#id_start, #id_stop').data("DateTimePicker").setMaxDate(datetime);
+    $("#feature-title").html("Historiqe des traces de "+name);
+    $("#summary").attr("action", ".");
+    $('#downloadModal').modal('show');
+});
+
 /* création de la couche sur laquelle on va dessiner les positions live */
 var liveLayer = new L.layerGroup();
 var osmLayer = L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
