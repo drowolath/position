@@ -29,20 +29,20 @@ class SummaryForm(forms.Form):
 
 
 class HistoryForm(forms.Form):
-u"""Formulaire de recherche de traces"""
-imei = forms.CharField(required=True)
-start = forms.DateTimeField(
-    input_formats=[
-        '%d/%m/%Y %H:%M:%S',
-        ],
-    required=True
-    )
-stop = forms.DateTimeField(
-    input_formats=[
-        '%d/%m/%Y %H:%M:%S',
-        ],
-    required=False
-    )
+    u"""Formulaire de recherche de traces"""
+    imei = forms.CharField(required=True)
+    start = forms.DateTimeField(
+        input_formats=[
+            '%d/%m/%Y %H:%M:%S',
+            ],
+        required=True
+        )
+    stop = forms.DateTimeField(
+        input_formats=[
+            '%d/%m/%Y %H:%M:%S',
+            ],
+        required=False
+        )
 
     
 def mapit(request, **kwargs):
