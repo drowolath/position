@@ -1,4 +1,4 @@
-#encoding: utf-8
+# encoding: utf-8
 
 import json
 import os
@@ -10,10 +10,12 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from models import Device, HistoryForm
 
+
 def mapit(request, **kwargs):
     """vue qui affiche un point sur une carte"""
     context = kwargs
     return render(request, 'mapit.html', context)
+
 
 @login_required
 def index(request, template_name="index.html"):
@@ -51,6 +53,7 @@ def index(request, template_name="index.html"):
                 return result
     return render(request, 'index.html', context)
 
+
 @login_required
 def trackers(request, **kwargs):
     """vue d'accès aux informations sur les trackers"""
@@ -80,9 +83,9 @@ def trackers(request, **kwargs):
                 'stop': stop
                 }
             )
-        token = settings.TOKENS.get('django') #en attendant de gérer mieux
+        token = settings.TOKENS.get('django')  # en attendant de gérer mieux
         while True:
-            req.auth = (token,'')
+            req.auth = (token, '')
             api_response = session.send(req.prepare())
             if api_response.status_code == 200:
                 # on a nos données en GeoJSON
