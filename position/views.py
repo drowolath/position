@@ -8,7 +8,23 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
-from models import Device, HistoryForm, SummaryForm
+from models import Device, HistoryForm
+from django import forms
+
+
+class SummaryForm(forms.Form):
+    start = forms.DateTimeField(
+        input_formats=[
+            '%d/%m/%Y %H:%M:%S',
+            ],
+        required=True
+        )
+    stop = forms.DateTimeField(
+        input_formats=[
+            '%d/%m/%Y %H:%M:%S',
+            ],
+        required=False
+        )
 
 
 def mapit(request, **kwargs):
