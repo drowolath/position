@@ -114,9 +114,9 @@ def index(request, template_name="index.html"):
                     else:
                         totaldistance = "HTTP {} error occured.".format(
                             result.status_code)
-                    p.drawString(100, y, '{0}: {1}'.format(
+                    p.drawString(10, y, '{0}: {1}'.format(
                         devices[device], totaldistance))
-                    y += 5
+                    y += 20
                 p.showPage()
                 p.save()
                 return response
