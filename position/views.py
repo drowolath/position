@@ -114,9 +114,10 @@ def index(request, template_name="index.html"):
                     if result.status_code == 200:
                         tracks = result.content
                         data = json.loads(tracks)
-                        totaldistance = data['totaldistance'][0]
+                        totaldistance = '{} km'.format(
+                            data['totaldistance'][0])
                     elif result.status_code == 204:
-                        totaldistance = 0
+                        totaldistance = '0 km'
                     else:
                         totaldistance = ("Impossible de calculer "
                                          "la distance (HTTP {})").format(
