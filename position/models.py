@@ -18,6 +18,21 @@ class Device(models.Model):
         return self.name
 
 
+class SummaryForm(forms.Form):
+    start = forms.DateTimeField(
+        input_formats= [
+            '%d/%m/%Y %H:%M:%S',
+            ],
+        required=True
+        )
+    stop = forms.DateTimeField(
+        input_formats= [
+            '%d/%m/%Y %H:%M:%S',
+            ],
+        required=False
+        )
+
+    
 class HistoryForm(forms.Form):
     u"""Formulaire de recherche de traces"""
     imei = forms.CharField(required=True)

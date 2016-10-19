@@ -8,7 +8,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
-from models import Device, HistoryForm
+from models import Device, HistoryForm, SummaryForm
 
 
 def mapit(request, **kwargs):
@@ -51,6 +51,18 @@ def index(request, template_name="index.html"):
                 return render(request, 'history.html', context)
             else:
                 return result
+        else:
+            form = SummaryForm(request.POST)
+            if form.is_valid():
+                start = form.cleaned_data['start']
+                stop = form.cleaned_data['stop']
+                start = start.strftime('%d%m%Y%H%M%S')
+                if not stop:
+                    stop = time.time().strftime('%d%m%Y%H%M%S')
+                else:
+                    stop = stop.strftime('%d%m%Y%H%M%S')
+                print bobo
+                return render(request, 'index.html', context)
     return render(request, 'index.html', context)
 
 
