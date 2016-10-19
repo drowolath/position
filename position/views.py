@@ -4,12 +4,13 @@ import json
 import os
 import requests
 import time
+from django import forms
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
-from models import Device, HistoryForm
-from django import forms
+from models import Device
+from reportlab.pdfgen import canvas
 
 
 class SummaryForm(forms.Form):
@@ -27,6 +28,23 @@ class SummaryForm(forms.Form):
         )
 
 
+class HistoryForm(forms.Form):
+u"""Formulaire de recherche de traces"""
+imei = forms.CharField(required=True)
+start = forms.DateTimeField(
+    input_formats=[
+        '%d/%m/%Y %H:%M:%S',
+        ],
+    required=True
+    )
+stop = forms.DateTimeField(
+    input_formats=[
+        '%d/%m/%Y %H:%M:%S',
+        ],
+    required=False
+    )
+
+    
 def mapit(request, **kwargs):
     """vue qui affiche un point sur une carte"""
     context = kwargs
@@ -49,7 +67,6 @@ def index(request, template_name="index.html"):
         # on va rechercher l'historique d'un tracker
         form = HistoryForm(request.POST)
         if form.is_valid():
-            print bonobo
             imei = form.cleaned_data['imei']
             start = form.cleaned_data['start']
             stop = form.cleaned_data['stop']
@@ -70,6 +87,8 @@ def index(request, template_name="index.html"):
                 return result
         else:
             form = SummaryForm(request.POST)
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = 'filename="distances.pdf"'
             if form.is_valid():
                 start = form.cleaned_data['start']
                 stop = form.cleaned_data['stop']
@@ -78,8 +97,27 @@ def index(request, template_name="index.html"):
                     stop = time.time().strftime('%d%m%Y%H%M%S')
                 else:
                     stop = stop.strftime('%d%m%Y%H%M%S')
-                print bonobo
-                return render(request, 'index.html', context)
+                devices = {i.imei: i.name for i in context['devices']}
+                p = canvas.Canvas(response)
+                for device in devices:
+                    result = trackers(
+                        request,
+                        imei=device,
+                        start=start,
+                        stop=stop
+                        )
+                    if result.status_code == 200:
+                        tracks = result.content
+                        data = json.loads(tracks)
+                        totaldistance = data['totaldistance']
+                    else:
+                        totaldistance = "HTTP {} error occured.".format(
+                            result.status_code)
+                    p.drawString(100, 100, '{0}: {1}'.format(
+                        devices[device], totaldistance))
+                p.showPage()
+                p.save()
+                return response
     return render(request, 'index.html', context)
 
 
