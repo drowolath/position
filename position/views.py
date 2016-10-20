@@ -101,8 +101,8 @@ def index(request, template_name="index.html"):
                     stop = stop.strftime('%d%m%Y%H%M%S')
                 bar = time.strptime(start, '%d%m%Y%H%M%S')
                 start = time.strftime('%Y-%m-%d %H:%M:%S', bar)
-                bar = time.strptime(stop, '%d%m%Y%H%M%S')
-                stop = time.strftime('%Y-%m-%d %H:%M:%S', bar)
+                foo = time.strptime(stop, '%d%m%Y%H%M%S')
+                stop = time.strftime('%Y-%m-%d %H:%M:%S', foo)
                 devices = {i.imei: i.name for i in context['devices']}
                 names = sorted(devices.values(), key=lambda x: x.split()[1])
                 names = itertools.groupby(names, lambda x: x.split()[1])
@@ -116,7 +116,9 @@ def index(request, template_name="index.html"):
                 devices = s_devices
                 p = canvas.Canvas(response)
                 title = "Distances parcourues du {0} au {1}".format(
-                    start[:8], stop[:8])
+                    time.strftime('%d-%m-%Y %H:%M:%S', bar),
+                    time.strftime('%d-%m-%Y %H:%M:%S', foo)
+                    )
                 p.drawString(200, 800, title)
                 y = 760
                 request.method = 'GET'
