@@ -99,6 +99,10 @@ def index(request, template_name="index.html"):
                     stop = time.time().strftime('%d%m%Y%H%M%S')
                 else:
                     stop = stop.strftime('%d%m%Y%H%M%S')
+                bar = time.strptime(start, '%d%m%Y%H%M%S')
+                start = time.strftime('%Y-%m-%d %H:%M:%S', bar)
+                bar = time.strptime(stop, '%d%m%Y%H%M%S')
+                stop = time.strftime('%Y-%m-%d %H:%M:%S', bar)
                 devices = {i.imei: i.name for i in context['devices']}
                 names = sorted(devices.values(), key=lambda x: x.split()[1])
                 names = itertools.groupby(names, lambda x: x.split()[1])
