@@ -119,7 +119,7 @@ def index(request, template_name="index.html"):
                     time.strftime('%d-%m-%Y %H:%M:%S', bar),
                     time.strftime('%d-%m-%Y %H:%M:%S', foo)
                     )
-                p.drawString(50, 800, title)
+                p.drawString(100, 800, title)
                 y = 760
                 request.method = 'GET'
                 for device in devices:
