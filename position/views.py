@@ -133,18 +133,15 @@ def index(request, template_name="index.html"):
                             }
                         )
                     if result.status_code == 200:
-                        tracks = result.content
-                        data = json.loads(tracks)
-                        totaldistance = '{} km'.format(
-                            data['totaldistance'][0])
+                        distance = '{} km'.format(result.json()['distance'])
                     elif result.status_code == 204:
-                        totaldistance = '0 km'
+                        distance = '0 km'
                     else:
-                        totaldistance = ("Impossible de calculer "
-                                         "la distance (HTTP {})").format(
-                                             result.status_code)
+                        distance = ("Impossible de calculer "
+                                    "la distance (HTTP {})").format(
+                                        result.status_code)
                     p.drawString(100, y, '{0}: {1}'.format(
-                        devices[device], totaldistance))
+                        devices[device], distance))
                     y -= 20
                 p.showPage()
                 p.save()
