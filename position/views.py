@@ -117,11 +117,16 @@ def index(request, template_name="index.html"):
                 y = 760
                 request.method = 'GET'
                 for device in devices:
-                    result = trackers(
-                        request,
-                        imei=device,
-                        start=start,
-                        stop=stop
+                    result = request.get(
+                        url=os.path.join(
+                            settings.GPSTRACKER_API_URL,
+                            'v1',
+                            'distances',
+                            device),
+                        params={
+                            'start': start,
+                            'stop': stop
+                            }
                         )
                     if result.status_code == 200:
                         tracks = result.content
