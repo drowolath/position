@@ -117,7 +117,7 @@ def index(request, template_name="index.html"):
                 y = 760
                 request.method = 'GET'
                 for device in devices:
-                    result = request.get(
+                    result = requests.get(
                         url=os.path.join(
                             settings.GPSTRACKER_API_URL,
                             'v1',
