@@ -15,7 +15,6 @@ setup(
     license='BSD License',
     description='A simple Django mapping app',
     long_description=README,
-    url='http:/gitlab.blueline.mg/default/position.git',
     author='Thomas Ayih-Akakpo',
     author_email='thomas.ayih-akakpo@gulfsat.mg',
     classifiers=[

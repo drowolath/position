@@ -17,7 +17,7 @@ L'application a besoin des modules suivant pour fonctionner:
 Dépendances réseau
 ------------------
 
-L'application puise ses informations d'une API REST qui pour le moment est située sur http://flicage.malagasy.com/api/gpstracker/.
+L'application puise ses informations d'une API REST.
 Elle entretient un trafic HTTP important avec cette API.
 
 L'API étant protégée par un jeton d'accès, l'application a besoin d'enregistrer son jeton pour utilisation jusqu'à expiration.

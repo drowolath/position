@@ -20,7 +20,7 @@ Live tracking: /
 La page d'accueil est une carte qui propose une couche sur laquelle sont dessinées les positions en temps
 réel de chaque module inscrit dans la base de données.
 
-Les positions sont récupérées via un code Javascript qui appelle à intervalle régulier l'API REST située à http://flicage.malagasy.com/api/gpstracker/
+Les positions sont récupérées via un code Javascript qui appelle à intervalle régulier une API REST
 
 Les modules sont inscrits dans la colonne de gauche et indiquent chacun la couleur du point qui leur correspond sur la carte.
 Chaque point est cliquable et affiche les informations de vitesse et heure dernièrement enregistrés.
@@ -39,7 +39,7 @@ Historique de parcours: /
 Cette vue attend en entrée un identifiant de module, une date et heure de début, une date et heure de fin.
 Ces informations lui sont passées par l'intermédaire d'un formulaire disponible sur la vue :ref:`position_views_live`.
 
-Avec ces informations, cette vue appelle l'API REST située à http://flicage.malagasy.com/api/gpstracker/ et en récupère un document
+Avec ces informations, cette vue appelle une API REST et en récupère un document
 GeoJSON lui donnant toutes les informations sur les différentes positions enregistrées dans l'intervalle de temps spécifié.
 
 La vue va ainsi proposer le tracé du chemin parcouru par le module pendant cette période.

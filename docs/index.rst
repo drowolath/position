@@ -13,7 +13,7 @@ Installation
 
 .. code-block:: bash
 
-   $ git clone git@gitlab.blueline.mg:default/position.git
+   $ git clone https://github.com/drowolath/position.git
    /position$ python setup.py sdist
    /position$ pip install dist/position-"version".tar.gz --user
 
